@@ -1,0 +1,8 @@
+spring:
+  application:
+    name:
+      PHARMACY POS
+  profiles:
+    active: dev
+server:
+  port: 9088
