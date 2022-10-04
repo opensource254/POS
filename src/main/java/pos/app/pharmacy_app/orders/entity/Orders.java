@@ -19,15 +19,15 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE ORDERS SET isDeleted = true WHERE SalesID=?")
+@SQLDelete(sql = "UPDATE ORDERS SET isDeleted = true WHERE orderID=?")
 @FilterDef(name = "deletedOrdersFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedOrdersFilter", condition = "deleted = :isDeleted")
 public class Orders {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDERS_SEQ")
-    @SequenceGenerator(sequenceName = "orders_seq", allocationSize = 1, name = "ORDERS_SEQ")
+    @SequenceGenerator(sequenceName = "\"orders_seq\"", allocationSize = 1, name = "ORDERS_SEQ")
     @Id
     @NonNull
-    @Column(name = "ORDER_ID")
+    @Column(name = "ORDERS_ID")
     private Long orderID;
     @Column(name = "ORDER_CODE")
     private String orderCode;

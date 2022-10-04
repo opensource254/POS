@@ -8,9 +8,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -27,14 +25,14 @@ import java.util.Date;
 @SQLDelete(sql = "UPDATE ORDERS SET deleted = true WHERE userId=?")
 @FilterDef(name = "deletedUsersFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedUsersFilter", condition = "deleted = :isDeleted")
-public class Users implements UserDetails {
+public class Users {
     @Id
     @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQ")
     @SequenceGenerator(sequenceName = "users_seq", allocationSize = 1, name = "USERS_SEQ")
     private Long userId;
-    @Builder.Default
-    private UserType userType=UserType.CASHIER;
+
+    private UserType userType;
     @Column(name = "FIRST_NAME")
     private String firstName;
     @Column(name = "LAST_NAME")
@@ -63,10 +61,10 @@ public class Users implements UserDetails {
     @Column(name = "UPDATED_AT")
     private Date updatedAt;
     private  Boolean deleted=Boolean.FALSE;
-    @Builder.Default
+
     private Boolean locked = false;
 
-    @Builder.Default
+
     private Boolean enabled = true;
 
     public Users(UserType userType, String firstName, String lastName,
@@ -83,29 +81,29 @@ public class Users implements UserDetails {
     }
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userType.name());
-        return Collections.singletonList(simpleGrantedAuthority);
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userType.name());
+//        return Collections.singletonList(simpleGrantedAuthority);
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return !locked;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+//    @Override
+//    public boolean isEnabled() {
+//        return enabled;
+//    }
 }

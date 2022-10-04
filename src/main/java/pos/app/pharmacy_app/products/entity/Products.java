@@ -7,19 +7,18 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 @Table(name = "PRODUCTS")
 @Entity
 @Data
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE ORDERS SET deleted = true WHERE SalesID=?")
+@SQLDelete(sql = "UPDATE ORDERS SET deleted = true WHERE productId=?")
 @FilterDef(name = "deletedProductsFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedProductsFilter", condition = "deleted = :isDeleted")
 public class Products {
+   @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "PRODUCT_SEQ")
+   @SequenceGenerator(name = "PRODUCT_SEQ", sequenceName = "\"Product_Seq\"",allocationSize = 1)
    @Id
    @Column(name = "PRODUCT_ID")
    private  Long productId;
