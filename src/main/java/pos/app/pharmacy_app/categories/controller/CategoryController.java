@@ -12,8 +12,6 @@ import pos.app.pharmacy_app.categories.Data.CategoryResponse;
 import pos.app.pharmacy_app.categories.entity.Categories;
 import pos.app.pharmacy_app.categories.repository.CategoryRepository;
 import pos.app.pharmacy_app.categories.service.CategoryService;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +29,7 @@ public class CategoryController {
 
         List<Categories> allCategories;
         try{
-            CategoryResponse response=new CategoryResponse();
+
             allCategories=  categoryService.getAllCategpories();
             if(allCategories.isEmpty()){
             return new ResponseEntity<>(allCategories,HttpStatus.CONFLICT);
@@ -83,11 +81,11 @@ public class CategoryController {
             Optional<Categories>getById=repository.findById(id);
             if(getById.isPresent())
             {
-             Categories category= categoryService.getGategory(id);
+             Categories category= categoryService.getCategoryBYId(id);
                return new ResponseEntity<>(category,HttpStatus.OK);
            }
         else{
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
            }
         }
         catch (Exception e){
@@ -96,7 +94,7 @@ public class CategoryController {
         }
    }
 
-   @RequestMapping(path = "/deleteCategoryById/{id}")
+   @RequestMapping(path = "/deleteCategoryById/{id}",method = RequestMethod.DELETE)
     public ResponseEntity<CategoryResponse>deleteById(@PathVariable("id") Long id){
         try{
             CategoryResponse response=new CategoryResponse();

@@ -27,7 +27,7 @@ public class Categories {
    @NotBlank
    private String description;
    @NotBlank
-   private String status;
+   private String status="Active";
    private Boolean deleted=Boolean.FALSE;
 
    public Categories(String name, String description, String status, Boolean deleted) {

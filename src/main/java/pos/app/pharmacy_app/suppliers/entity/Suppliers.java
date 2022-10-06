@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE ORDERS SET isDeleted = true WHERE SalesID=?")
+@SQLDelete(sql = "UPDATE SUPPLIERS SET isDeleted = true WHERE SUPPLIER_ID=?")
 @FilterDef(name = "deletedOrdersFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedOrdersFilter", condition = "isDeleted = :isDeleted")
 
@@ -28,10 +28,12 @@ public class Suppliers {
     @Column(name = "PHONE")
     private String phone;
     @Column(name = "STATUS")
-    private Integer status;
+    private String status="Active";
+    @
+    Column(name = "ISDELETED")
     private Boolean isDeleted=Boolean.FALSE;
 
-    public Suppliers(String name, String phone, Integer status, Boolean isDeleted) {
+    public Suppliers(String name, String phone, String status, Boolean isDeleted) {
         this.name = name;
         this.phone = phone;
         this.status = status;

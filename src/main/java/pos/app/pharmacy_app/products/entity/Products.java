@@ -2,12 +2,14 @@ package pos.app.pharmacy_app.products.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 @Table(name = "PRODUCTS")
 @Entity
@@ -21,6 +23,7 @@ public class Products {
    @SequenceGenerator(name = "PRODUCT_SEQ", sequenceName = "\"Product_Seq\"",allocationSize = 1)
    @Id
    @Column(name = "PRODUCT_ID")
+   @NonNull
    private  Long productId;
    @Column(name = "PRODUCT_NAME")
    private  String productName;
@@ -33,11 +36,11 @@ public class Products {
    @Column(name = "PRICE")
    private  BigDecimal price;
    @Column(name = "STATUS")
-   private  int status;
+   private  String status="Active";
    private  Boolean deleted=Boolean.FALSE;
 
    public Products(String productName, String brand, String description, String weight,
-                   BigDecimal price, int status, Boolean deleted) {
+                   BigDecimal price, String status, Boolean deleted) {
       this.productName = productName;
       this.brand = brand;
       this.description = description;

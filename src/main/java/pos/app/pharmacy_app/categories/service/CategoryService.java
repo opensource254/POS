@@ -1,5 +1,6 @@
 package pos.app.pharmacy_app.categories.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import pos.app.pharmacy_app.categories.Data.CategoryRequest;
@@ -11,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
 private CategoryRepository categoryRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public CategoryResponse saveCategory(@Validated CategoryRequest categoriess){
 
@@ -24,7 +23,6 @@ private CategoryRepository categoryRepository;
         Categories request=new Categories();
         request.setName(categoriess.getName());
         request.setDescription(categoriess.getDescription());
-        request.setStatus(categoriess.getStatus());
         categoryRepository.save(request);
 
         CategoryResponse response=new CategoryResponse();
@@ -38,7 +36,7 @@ private CategoryRepository categoryRepository;
 
 
  }
- public Categories getGategory(Long id)
+ public Categories getCategoryBYId(Long id)
  {
      return categoryRepository.findById(id).get();
  }
@@ -64,7 +62,7 @@ private CategoryRepository categoryRepository;
      Categories category=categoryRepository.findById(id).get();
         category.setCategoryID(id);
         category.setName(category.getName());
-        category.setStatus(categoryDetails.getStatus());
+
         category.setDescription(categoryDetails.getDescription());
         categoryRepository.save(category);
      CategoryResponse response=new CategoryResponse();
