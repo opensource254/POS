@@ -33,6 +33,9 @@ public class Products {
    private  String description;
    @Column(name = "WEIGHT")
    private  String weight;
+   @
+   Column(name = "PRODUCT_CODE")
+   private String productCode;
    @Column(name = "PRICE")
    private  BigDecimal price;
    @Column(name = "STATUS")

@@ -15,6 +15,8 @@ public class ProductRequest {
     @NotBlank
     private String name;
     @NotBlank
+    private String productCode;
+    @NotBlank
     private String description;
     @NotBlank
     private String brand;

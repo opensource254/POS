@@ -26,6 +26,7 @@ public ProductResponse createProducts(ProductRequest request){
     productsRequest.setPrice(request.getPrice());
     productsRequest.setBrand(request.getBrand());
     productsRequest.setWeight(request.getWeight());
+    productsRequest.setProductCode(request.getProductCode());
     productRepository.save(productsRequest);
     ProductResponse response=new ProductResponse();
     response.setResponseCode("00");
