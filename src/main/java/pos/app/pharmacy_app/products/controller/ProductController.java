@@ -19,14 +19,12 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @RestController
-
-
 public class ProductController {
     @Autowired
-    ProductRepository repository;
+   private ProductRepository repository;
     @Autowired
-    ProductService service;
-   @PostMapping("createProduct")
+   private ProductService service;
+   @PostMapping("/createProduct")
     public ResponseEntity<ProductResponse>saveProducts(@RequestBody @Validated ProductRequest productRequest){
       try{
           ProductResponse response=  service.createProducts(productRequest);
@@ -64,11 +62,11 @@ public class ProductController {
        }
 
     }
-    @PutMapping("/updateProducts")
-    public ResponseEntity<ProductResponse>updateProducts(@RequestBody @Validated ProductRequest request, Long id){
+    @PutMapping("/updateProducts/{id}")
+    public ResponseEntity<ProductResponse>updateProducts(@RequestBody  @Validated ProductRequest request, @Validated Long id){
        try{
 
-       if (repository.findById(id).isPresent())
+       if (repository.findProductsByProductId(id).isPresent())
            { ProductResponse response;
                 response= service.updateProducts(request,id);
                return new ResponseEntity<>(response,HttpStatus.OK);

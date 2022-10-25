@@ -1,6 +1,6 @@
 package pos.app.pharmacy_app.users.entity;
 
-import lombok.Builder;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -8,15 +8,15 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 @Table(name = "USERS")
 @Entity
@@ -66,6 +66,9 @@ public class Users {
 
 
     private Boolean enabled = true;
+    @ManyToMany
+    @JoinColumn(name = "USER_ROLES", referencedColumnName = "roleId")
+    private Set<Roles>roles=new HashSet<>();
 
     public Users(UserType userType, String firstName, String lastName,
                  String email, String phone, String username,
@@ -79,31 +82,4 @@ public class Users {
         this.password = password;
         this.deleted = deleted;
     }
-
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userType.name());
-//        return Collections.singletonList(simpleGrantedAuthority);
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return !locked;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-
-//    @Override
-//    public boolean isEnabled() {
-//        return enabled;
-//    }
 }

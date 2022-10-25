@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE ORDERS SET deleted = true WHERE productId=?")
+@SQLDelete(sql = "UPDATE PRODUCTS SET deleted = true WHERE productId=?")
 @FilterDef(name = "deletedProductsFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedProductsFilter", condition = "deleted = :isDeleted")
 public class Products {
@@ -42,7 +42,7 @@ public class Products {
    private  String status="Active";
    private  Boolean deleted=Boolean.FALSE;
 
-   public Products(String productName, String brand, String description, String weight,
+   public Products(String productName, String brand, String description, String weight,String productCode,
                    BigDecimal price, String status, Boolean deleted) {
       this.productName = productName;
       this.brand = brand;
@@ -50,6 +50,7 @@ public class Products {
       this.weight = weight;
       this.price = price;
       this.status = status;
+      this.productCode=productCode;
       this.deleted = deleted;
    }
 }

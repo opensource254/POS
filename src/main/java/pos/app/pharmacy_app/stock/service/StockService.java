@@ -29,8 +29,8 @@ public class StockService {
         StockResponse response=new StockResponse();
         response.setResponseCode("00");
         response.setMessage("Stock added successfully");
-        String products= productRepository.findById(request.getProductsId()).getProductCode();
-        response.setProductCode(products);
+        String productCode= productRepository.findProductsByProductId(request.getProductsId().getProductCode());
+        response.setProductCode(productCode);
         return response;
         }
 
