@@ -1,10 +1,11 @@
 package pos.app.pharmacy_app.categories.Data;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +13,31 @@ import javax.validation.constraints.NotBlank;
 public class CategoryRequest {
     private  Long id;
     @NotBlank
-    private String name;
+    private String categoryName;
     @NotBlank
     private String description;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
