@@ -3,6 +3,7 @@ package pos.app.pharmacy_app.categories.controller;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import pos.app.pharmacy_app.categories.entity.Categories;
 import pos.app.pharmacy_app.categories.repository.CategoryRepository;
 import pos.app.pharmacy_app.categories.service.CategoryService;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @NoArgsConstructor
@@ -25,16 +27,17 @@ public class CategoryController {
     @Autowired
     private CategoryRepository repository;
     @GetMapping("/categoriesList")
-    public ResponseEntity<List<Categories>>getCategoryList(){
+    public ResponseEntity<List<Categories>>getCategoryList(@RequestParam Integer pageNo,@RequestParam Integer pageSize,
+                                                           @RequestParam(defaultValue = "ASCE") String sortBy){
 
         List<Categories> allCategories;
         try{
 
-            allCategories=  categoryService.getAllCategpories();
+            allCategories=  categoryService.getAllCategpories(pageNo,pageSize,sortBy);
             if(allCategories.isEmpty()){
-            return new ResponseEntity<>(allCategories,HttpStatus.CONFLICT);
+            return new ResponseEntity<>(allCategories,new HttpHeaders(),HttpStatus.CONFLICT);
             }else {
-                return new ResponseEntity<>(allCategories, HttpStatus.OK);
+                return new ResponseEntity<>(allCategories,new HttpHeaders(), HttpStatus.OK);
             }
            }
         catch (Exception e){
@@ -84,8 +87,8 @@ public class CategoryController {
              Categories category= categoryService.getCategoryBYId(id);
                return new ResponseEntity<>(category,HttpStatus.OK);
            }
-        else{
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        else{ throw new NoSuchElementException("SUch Id Does not Exist");
+           // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
            }
         }
         catch (Exception e){
