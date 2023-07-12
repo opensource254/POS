@@ -1,19 +1,21 @@
 package pos.app.pharmacy_app.categories.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 
 @Table(name = "CATEGORIES")
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @SQLDelete(sql = "UPDATE CATEGORIES SET deleted = true WHERE categoryID=?")
 @Where(clause = "deleted=false")
 public class Categories {
@@ -30,10 +32,43 @@ public class Categories {
    private String status="Active";
    private Boolean deleted=Boolean.FALSE;
 
-   public Categories(String name, String description, String status, Boolean deleted) {
+   public Long getCategoryID() {
+      return categoryID;
+   }
+
+   public void setCategoryID(Long categoryID) {
+      this.categoryID = categoryID;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
       this.name = name;
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public void setDescription(String description) {
       this.description = description;
+   }
+
+   public String getStatus() {
+      return status;
+   }
+
+   public void setStatus(String status) {
       this.status = status;
+   }
+
+   public Boolean getDeleted() {
+      return deleted;
+   }
+
+   public void setDeleted(Boolean deleted) {
       this.deleted = deleted;
    }
 }
