@@ -1,19 +1,37 @@
 package pos.app.pharmacy_app.users.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
+import java.util.List;
+
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ROLES")
 @Entity
-public class Roles {
+
+public class Roles implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ROLE_ID")
     private Long roleId;
-    private UserType roleNames;
+    @Column(name = "ROLE_NAME")
+    //private UserType roleNames;
+    private String roleName;
+    @Column(name = "Authorities")
+    private String authorities;
+    public Roles() {
+        super();
+    }
+
+    @ManyToMany(mappedBy="roles")
+    private List<Users> users;
+    @Override
+    public String getAuthority() {
+        return authorities;
+    }
 }
