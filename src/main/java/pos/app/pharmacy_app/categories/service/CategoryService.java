@@ -1,6 +1,10 @@
 package pos.app.pharmacy_app.categories.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import pos.app.pharmacy_app.categories.Data.CategoryRequest;
@@ -10,6 +14,8 @@ import pos.app.pharmacy_app.categories.repository.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,16 +27,13 @@ private CategoryRepository categoryRepository;
 
 
         Categories request=new Categories();
-        request.setName(categoriess.getName());
+        request.setName(categoriess.getCategoryName());
         request.setDescription(categoriess.getDescription());
         categoryRepository.save(request);
 
         CategoryResponse response=new CategoryResponse();
-        response.setId(request.getCategoryID());
-        response.setDescription(request.getDescription());
-        response.setName(request.getName());
         response.setResponseCode("00");
-        response.setMessage("Category returned data");
+
         return response;
 
 
@@ -38,14 +41,24 @@ private CategoryRepository categoryRepository;
  }
  public Categories getCategoryBYId(Long id)
  {
-     return categoryRepository.findById(id).get();
+     Optional<Categories>categories=categoryRepository.findById(id);
+     if (categories.isPresent()){
+         return categories.get();
+     }
+     else  throw new NoSuchElementException("User with that Id does not exist");
+
  }
- public List<Categories>getAllCategpories(){
+ public List<Categories>getAllCategpories(Integer pageNo, Integer pageSize, String sort){
+     Pageable pageable=PageRequest.of(pageNo, pageSize, Sort.by(sort));
 
      List<Categories>categoryList=new ArrayList<>();
+     Page<Categories>pageSults=categoryRepository.findAll(pageable);
+     if(pageSults.hasContent()){
+         return pageSults.getContent();
+     }else return  new ArrayList<Categories>();
      // using different methods to iterate over elements
      //using method refference
-      categoryRepository.findAll().forEach(categoryList::add);
+    //  categoryRepository.findAll().forEach(categoryList::add);
      // using for loop instead of foreach method.
      //     for(Categories categories : categoryRepository.findAll()) {
      //       categoryList.add(categories);
@@ -53,7 +66,7 @@ private CategoryRepository categoryRepository;
      // using bulk Collection.add()
      //   categoryList.addAll(categoryRepository.findAll());
     //categoryRepository.findAll().forEach(e -> categoryList.add(e));
-     return categoryList;
+
  }
  public void deleteCategory(Long id){
      categoryRepository.deleteById(id);
@@ -67,9 +80,7 @@ private CategoryRepository categoryRepository;
         categoryRepository.save(category);
      CategoryResponse response=new CategoryResponse();
      response.setResponseCode("00");
-     response.setMessage("Data changed");
-     response.setName(category.getName());
-     response.setDescription(category.getDescription());
+
      return response;
 
  }
