@@ -14,7 +14,6 @@ public class UserData {
     private String lastName;
     private String Phone;
     public  UserType userType;
-    private String phone;
     private String email;
     private Date createAt;
     private String createdBy;
